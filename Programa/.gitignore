@@ -1,15 +1,11 @@
 # --- Haskell/Cabal ---
-# Carpeta donde Cabal guarda TODO lo compilado (el "bin" y "output")
 dist-newstyle/
 dist/
-
-# Archivos de configuración local de Cabal
 cabal.project.local
 cabal.project.local*
 cabal.project.freeze
 
 # --- Artefactos de Compilación de GHC ---
-# Archivos de objeto e interfaz generados al compilar a mano
 *.o
 *.hi
 *.chi
@@ -17,14 +13,5 @@ cabal.project.freeze
 *.dyn_o
 *.dyn_hi
 
-# --- Herramientas de Desarrollo ---
-# Archivos del Haskell Language Server (para el autocompletado en VS Code)
-.hie/
-.ghc.environment.*
-
-# Si llegas a usar Stack en lugar de Cabal puro
-.stack-work/
-
-# --- Sistema Operativo ---
-.DS_Store
-Thumbs.db
+#--- Persistencia de datos ---
+eventos_db.csv
