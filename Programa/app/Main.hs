@@ -4,6 +4,8 @@ import System.IO (hFlush, stdout)
 import Evento
 import Generador
 import Transformador
+import Analizador
+import Temporal
 
 main :: IO ()
 main = do
@@ -35,12 +37,10 @@ menuPrincipal eventos = do
             menuTransformacion eventos
 
         "3" -> do
-            putStrLn "\n[INFO] Modulo en mantenimiento..."
-            menuPrincipal eventos
+            menuAnalisis eventos
 
         "4" -> do
-            putStrLn "\n[INFO] Modulo en mantenimiento..."
-            menuPrincipal eventos
+            menuTemporal eventos
 
         "5" -> do
             putStrLn "\n[INFO] Modulo en mantenimiento..."
@@ -121,3 +121,90 @@ menuTransformacion eventos = do
         _ -> do
             putStrLn "\n[ERROR] Opcion no valida."
             menuTransformacion eventos
+
+menuAnalisis :: [Evento] -> IO ()
+menuAnalisis eventos = do
+    putStrLn "\n========================================"
+    putStrLn "          ANALISIS DE DATOS"
+    putStrLn "========================================"
+    putStrLn "1. Categoria mas frecuente"
+    putStrLn "2. Total de ventas (compras globales)"
+    putStrLn "3. Total de ventas mensuales y anuales"
+    putStrLn "4. Promedio de ventas por categoria por anio"
+    putStrLn "5. Volver al menu principal"
+    putStrLn "========================================"
+    putStr "Seleccione una opcion: "
+    hFlush stdout
+    opcion <- getLine
+    case opcion of
+        "1" -> do
+            let frecuente = categoriaMasFrecuente eventos
+            putStrLn $ "\n[INFO] La categoria mas frecuente es: " ++ frecuente
+            menuAnalisis eventos
+
+        "2" -> do
+            let total = totalDeVentas eventos
+            putStrLn $ "\n[INFO] El total de todas las compras es: " ++ show total
+            menuAnalisis eventos
+
+        "3" -> do
+            putStrLn "\n[INFO] Total de ventas por (Anio, Mes):"
+            mapM_ print (ventasPorMesYAnio eventos)
+            menuAnalisis eventos
+
+        "4" -> do
+            putStrLn "\n[INFO] Promedio por (Categoria, Anio):"
+            mapM_ print (promedioPorCategoriaYAnio eventos)
+            menuAnalisis eventos
+
+        "5" -> do
+            menuPrincipal eventos
+
+        _ -> do
+            putStrLn "\n[ERROR] Opcion no valida."
+            menuAnalisis eventos
+
+menuTemporal :: [Evento] -> IO ()
+menuTemporal eventos = do
+    putStrLn "\n========================================"
+    putStrLn "          ANALISIS TEMPORAL"
+    putStrLn "========================================"
+    putStrLn "1. Mes con mayor venta y dia mas activo"
+    putStrLn "2. Evento mas antiguo y reciente"
+    putStrLn "3. Resumen de ventas por intervalo"
+    putStrLn "4. Volver al menu principal"
+    putStrLn "========================================"
+    putStr "Seleccione una opcion: "
+    hFlush stdout
+    opcion <- getLine
+
+    if null eventos && opcion `elem` ["1", "2", "3"]
+        then do
+            putStrLn "\n[ERROR] No hay eventos cargados. Vaya a 'Gestionar Eventos' y genere datos primero."
+            menuTemporal eventos
+        else case opcion of
+            "1" -> do
+                let ((anio, mes), totalVendido) = mesMayorVenta eventos
+                let diaActivo = diaMasActivo eventos
+                putStrLn $ "\n[INFO] Mes con MAYOR VENTA: " ++ show mes ++ "/" ++ show anio ++ " (Total: $" ++ show totalVendido ++ ")"
+                putStrLn $ "[INFO] Dia mas activo (mas cantidad de eventos): " ++ diaActivo
+                menuTemporal eventos
+
+            "2" -> do
+                let (antiguo, reciente) = extremosTemporales eventos
+                putStrLn "\n[INFO] --- Evento mas ANTIGUO ---"
+                print antiguo
+                putStrLn "\n[INFO] --- Evento mas RECIENTE ---"
+                print reciente
+                menuTemporal eventos
+
+            "3" -> do
+                putStrLn "\n[INFO] Modulo en mantenimiento..."
+                menuTemporal eventos
+
+            "4" -> do
+                menuPrincipal eventos
+
+            _ -> do
+                putStrLn "\n[ERROR] Opcion no valida."
+                menuTemporal eventos
