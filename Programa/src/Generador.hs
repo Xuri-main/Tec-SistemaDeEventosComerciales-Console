@@ -45,7 +45,7 @@ generarNEventos cantidadFaltante idsYaUsados tiempoMin tiempoMax = do
             valorAleatorio <- randomRIO (500.0, 75000.0)
             timestampAleatorio <- randomRIO (tiempoMin, tiempoMax)
 
-            let eventoNuevo = Evento idCandidato categoriaSeleccionada valorAleatorio timestampAleatorio
+            let eventoNuevo = Evento idCandidato categoriaSeleccionada valorAleatorio timestampAleatorio ""
 
             let nuevosIdsYaUsados = idCandidato : idsYaUsados
 

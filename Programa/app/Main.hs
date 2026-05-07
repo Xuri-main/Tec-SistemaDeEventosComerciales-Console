@@ -3,6 +3,7 @@ module Main where
 import System.IO (hFlush, stdout)
 import Evento
 import Generador
+import Transformador
 
 main :: IO ()
 main = do
@@ -31,8 +32,7 @@ menuPrincipal eventos = do
             menuGestionEventos eventos
 
         "2" -> do
-            putStrLn "\n[INFO] Modulo en mantenimiento..."
-            menuPrincipal eventos
+            menuTransformacion eventos
 
         "3" -> do
             putStrLn "\n[INFO] Modulo en mantenimiento..."
@@ -88,3 +88,36 @@ menuGestionEventos eventos = do
         _ -> do
             putStrLn "\n[ERROR] Opcion no valida."
             menuGestionEventos eventos
+
+menuTransformacion :: [Evento] -> IO ()
+menuTransformacion eventos = do
+    putStrLn "\n========================================"
+    putStrLn "        TRANSFORMACION DE EVENTOS"
+    putStrLn "========================================"
+    putStrLn "1. Aplicar impuesto a compras (13%)"
+    putStrLn "2. Etiquetar eventos de alto valor"
+    putStrLn "3. Volver al menu principal"
+    putStrLn "========================================"
+    putStr "Seleccione una opcion: "
+    hFlush stdout
+    opcion <- getLine
+    case opcion of
+        "1" -> do
+            putStrLn "\n[INFO] Aplicando 13% de impuesto a las compras..."
+            let eventosActualizados = aplicarImpuesto eventos
+            putStrLn "[INFO] Impuestos aplicados con exito."
+            menuTransformacion eventosActualizados
+
+        "2" -> do
+            putStrLn "\n[INFO] Analizando promedios y etiquetando eventos..."
+            let eventosActualizados = etiquetarAltoValor eventos
+            putStrLn "[INFO] Etiquetas de 'Alto Valor' aplicadas con exito."
+            
+            menuTransformacion eventosActualizados
+
+        "3" -> do
+            menuPrincipal eventos
+
+        _ -> do
+            putStrLn "\n[ERROR] Opcion no valida."
+            menuTransformacion eventos

@@ -62,7 +62,7 @@ library
     import:           warnings
 
     -- Modules exported by the library.
-    exposed-modules:  Evento, Generador
+    exposed-modules:  Evento, Generador, Transformador
 
     -- Modules included in this library but not exported.
     -- other-modules: Evento
@@ -84,4 +84,4 @@ executable Programa
     hs-source-dirs:   app, src
     build-depends:    base >=4.17.0.0, random, time
     default-language: Haskell2010
-    other-modules: Evento, Generador
+    other-modules: Evento, Generador, Transformador

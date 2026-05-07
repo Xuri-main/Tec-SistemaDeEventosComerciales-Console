@@ -4,5 +4,6 @@ data Evento = Evento {
     idEvento  :: Int,
     categoria :: String,
     valor     :: Double,
-    timestamp :: Int
+    timestamp :: Int,
+    etiqueta  :: String
 } deriving (Show, Eq)
