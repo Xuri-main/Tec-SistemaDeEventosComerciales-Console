@@ -6,11 +6,17 @@ import Generador
 import Transformador
 import Analizador
 import Temporal
+import Busqueda
+import Archivos
+import Estadisticas
 
 main :: IO ()
 main = do
     putStrLn "[INFO] Iniciando Sistema de Eventos Comerciales..."
-    menuPrincipal []
+    putStrLn "[INFO] Buscando base de datos anterior..."
+    eventosAnteriores <- cargarEventos
+    putStrLn $ "[INFO] Se cargaron " ++ show (length eventosAnteriores) ++ " eventos en memoria."
+    menuPrincipal eventosAnteriores
 
 menuPrincipal :: [Evento] -> IO ()
 menuPrincipal eventos = do
@@ -43,14 +49,14 @@ menuPrincipal eventos = do
             menuTemporal eventos
 
         "5" -> do
-            putStrLn "\n[INFO] Modulo en mantenimiento..."
-            menuPrincipal eventos
+            menuBusqueda eventos
 
         "6" -> do
-            putStrLn "\n[INFO] Modulo en mantenimiento..."
-            menuPrincipal eventos
+            menuEstadisticas eventos
 
         "7" -> do
+            putStrLn "\n[INFO] Guardando base de datos..."
+            guardarEventos eventos
             putStrLn "\n[INFO] Saliendo del sistema..."
 
         _ -> do
@@ -208,3 +214,115 @@ menuTemporal eventos = do
             _ -> do
                 putStrLn "\n[ERROR] Opcion no valida."
                 menuTemporal eventos
+
+menuBusqueda :: [Evento] -> IO ()
+menuBusqueda eventos = do
+    putStrLn "\n========================================"
+    putStrLn "          BUSQUEDA ESPECIFICA"
+    putStrLn "========================================"
+    putStrLn "1. Buscar ventas por rango de fechas"
+    putStrLn "2. Volver al menu principal"
+    putStrLn "========================================"
+    putStr "Seleccione una opcion: "
+    hFlush stdout
+
+    opcion <- getLine
+    
+    if null eventos && opcion == "1"
+        then do
+            putStrLn "\n[ERROR] No hay eventos cargados para buscar."
+            menuBusqueda eventos
+        else case opcion of
+            "1" -> do
+                putStrLn "\n--- INGRESE LA FECHA DE INICIO ---"
+                putStr "Anio (ej. 2026): "
+                hFlush stdout
+                anio1Str <- getLine
+                putStr "Mes (1-12): "
+                hFlush stdout
+                mes1Str <- getLine
+                putStr "Dia (1-31): "
+                hFlush stdout
+                dia1Str <- getLine
+
+                putStrLn "\n--- INGRESE LA FECHA DE FIN ---"
+                putStr "Anio (ej. 2026): "
+                hFlush stdout
+                anio2Str <- getLine
+                putStr "Mes (1-12): "
+                hFlush stdout
+                mes2Str <- getLine
+                putStr "Dia (1-31): "
+                hFlush stdout
+                dia2Str <- getLine
+
+                let fInicio = (read anio1Str :: Integer, read mes1Str :: Int, read dia1Str :: Int)
+                let fFin    = (read anio2Str :: Integer, read mes2Str :: Int, read dia2Str :: Int)
+
+                putStrLn "\n[INFO] Buscando..."
+                let resultados = buscarVentasPorRango fInicio fFin eventos
+                
+                putStrLn $ "[INFO] Se encontraron " ++ show (length resultados) ++ " ventas en ese rango:\n"
+                
+                if null resultados 
+                    then putStrLn "No hubo ventas en las fechas indicadas."
+                    else mapM_ print resultados
+                
+                menuBusqueda eventos
+
+            "2" -> do
+                menuPrincipal eventos
+
+            _ -> do
+                putStrLn "\n[ERROR] Opcion no valida."
+                menuBusqueda eventos
+
+menuEstadisticas :: [Evento] -> IO ()
+menuEstadisticas eventos = do
+    putStrLn "\n========================================"
+    putStrLn "              ESTADISTICAS"
+    putStrLn "========================================"
+    putStrLn "1. Categoria mas vendida"
+    putStrLn "2. Categoria con menor participacion"
+    putStrLn "3. Resumen general"
+    putStrLn "4. Volver al menu principal"
+    putStrLn "========================================"
+    putStr "Seleccione una opcion: "
+    hFlush stdout
+    opcion <- getLine
+    if null eventos && opcion `elem` ["1", "2", "3"]
+        then do
+            putStrLn "\n[ERROR] No hay eventos cargados para calcular estadisticas."
+            menuEstadisticas eventos
+        else case opcion of
+            "1" -> do
+                putStrLn "\n[INFO] Calculando Categoria mas vendida..."
+                let lineasA = reporteA eventos
+                mapM_ putStrLn (drop 1 lineasA) 
+                
+                -- Guardamos el archivo físico
+                exportarReporte "Estadistica_A.csv" lineasA
+                menuEstadisticas eventos
+
+            "2" -> do
+                putStrLn "\n[INFO] Calculando Categoria con menor participacion..."
+                let lineasB = reporteB eventos
+                mapM_ putStrLn (drop 1 lineasB)
+                
+                exportarReporte "Estadistica_B.csv" lineasB
+                menuEstadisticas eventos
+
+            "3" -> do
+                putStrLn "\n[INFO] Generando Resumen General..."
+                let lineasC = reporteC eventos
+                putStrLn "[INFO] Vista previa generada correctamente."
+                
+                exportarReporte "Estadistica_C.csv" lineasC
+                menuEstadisticas eventos
+
+            "4" -> do
+                menuPrincipal eventos
+
+            _ -> do
+                putStrLn "\n[ERROR] Opcion no valida."
+                menuEstadisticas eventos
