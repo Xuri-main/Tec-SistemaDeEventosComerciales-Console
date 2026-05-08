@@ -1,3 +1,9 @@
+{-
+ - Archivo: Temporal.hs
+ - Descripcion: Evalúa el comportamiento de los datos a través del tiempo para encontrar picos de actividad y extremos cronológicos.
+ - Autores: Emilio Funes R.
+ -}
+
 module Temporal where
 
 import Data.Time.Clock.POSIX (posixSecondsToUTCTime)

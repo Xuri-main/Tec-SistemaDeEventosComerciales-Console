@@ -1,3 +1,9 @@
+{-
+ - Archivo: Analizador.hs
+ - Descripcion: Realiza cálculos matemáticos para extraer métricas básicas, como totales de ventas, promedios y categorías frecuentes.
+ - Autores: Emilio Funes R.
+ -}
+
 module Analizador where
 
 import Evento
@@ -66,9 +72,7 @@ Restricciones: Solo toma en cuenta categorías predefinidas. Si no hay eventos, 
 categoriaMasFrecuente :: [Evento] -> String
 categoriaMasFrecuente [] = "No hay eventos cargados"
 categoriaMasFrecuente eventos =
-    let categorias = ["visualizacion", "apartado", "compra", "devolucion", "seguimiento"]
-        conteos = [ (length (filter (\e -> categoria e == cat) eventos), cat) | cat <- categorias ]
-        
+    let conteos = [ (length (filter (\e -> categoria e == cat) eventos), cat) | cat <- categoriasGlobales ]
         (_, mejorCategoria) = maximum conteos
     in mejorCategoria
 

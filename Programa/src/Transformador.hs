@@ -1,3 +1,9 @@
+{-
+ - Archivo: Transformador.hs
+ - Descripcion: Aplica reglas de negocio y transformaciones sobre los eventos, como el cálculo de impuestos y el etiquetado por valor.
+ - Autores: Jareck Levell C.
+ -}
+
 module Transformador where
 
 import Evento

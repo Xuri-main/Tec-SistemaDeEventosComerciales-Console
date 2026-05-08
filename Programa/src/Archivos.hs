@@ -1,3 +1,9 @@
+{-
+ - Archivo: Archivos.hs
+ - Descripcion: Gestiona la persistencia de datos (lectura y escritura local) y la exportación de los reportes estadísticos en formato CSV.
+ - Autores: Emilio Funes R. , Ginger Rodríguez G. & Jareck Levell C.
+ -}
+
 module Archivos where
 
 import Evento

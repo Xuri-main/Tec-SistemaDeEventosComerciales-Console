@@ -1,18 +1,14 @@
+{-
+ - Archivo: Generador.hs
+ - Descripcion: Se encarga de la creación automatizada de eventos aleatorios con identificadores únicos y fechas dinámicas.
+ - Autores: Ginger Rodríguez G.
+ -}
+
 module Generador where
 
 import Evento
 import System.Random (randomRIO)
 import Data.Time.Clock.POSIX (getPOSIXTime)
-
-{-
-Global: categorias
-Objetivo: Guardar las categorías válidas que puede tener un evento.
-Entrada: No recibe entrada.
-Salida: Una lista de String con las categorías disponibles.
-Restricciones: Los eventos generados solo usarán categorías que estén dentro de esta lista.
--}
-categorias :: [String]
-categorias = ["visualizacion", "apartado", "compra", "devolucion", "seguimiento"]
 
 {-
 Función: generarEventos
@@ -63,8 +59,8 @@ generarNEventos cantidadFaltante idsYaUsados tiempoMin tiempoMax = do
         then do
             generarNEventos cantidadFaltante idsYaUsados tiempoMin tiempoMax
         else do
-            indiceCategoria <- randomRIO (0, length categorias - 1)
-            let categoriaSeleccionada = categorias !! indiceCategoria
+            indiceCategoria <- randomRIO (0, length categoriasGlobales - 1)
+            let categoriaSeleccionada = categoriasGlobales !! indiceCategoria
 
             valorAleatorio <- randomRIO (500.0, 75000.0)
             timestampAleatorio <- randomRIO (tiempoMin, tiempoMax)

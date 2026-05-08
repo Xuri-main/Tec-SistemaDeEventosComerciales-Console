@@ -1,3 +1,9 @@
+{-
+ - Archivo: Main.hs
+ - Descripcion: Punto de entrada del sistema. Maneja la interfaz de usuario, los menús interactivos y el flujo principal del programa.
+ - Autores: Emilio Funes R. , Ginger Rodríguez G. & Jareck Levell C.
+ -}
+
 module Main where
 
 import System.IO (hFlush, stdout)
@@ -118,12 +124,10 @@ menuTransformacion eventos = do
             putStrLn "\n[INFO] Analizando promedios y etiquetando eventos..."
             let eventosActualizados = etiquetarAltoValor eventos
             putStrLn "[INFO] Etiquetas de 'Alto Valor' aplicadas con exito."
-            
             menuTransformacion eventosActualizados
 
         "3" -> do
             menuPrincipal eventos
-
         _ -> do
             putStrLn "\n[ERROR] Opcion no valida."
             menuTransformacion eventos
@@ -285,7 +289,7 @@ menuEstadisticas eventos = do
     putStrLn "\n========================================"
     putStrLn "              ESTADISTICAS"
     putStrLn "========================================"
-    putStrLn "1. Categoria mas vendida"
+    putStrLn "1. Categoria mas vrendida"
     putStrLn "2. Categoria con menor participacion"
     putStrLn "3. Resumen general"
     putStrLn "4. Volver al menu principal"
