@@ -87,7 +87,7 @@ reporteC eventos =
     in [ "REPORTE C: Resumen General" ] ++
        [ "--- Cantidad de ventas por categoria ---", "Categoria,Cantidad" ] ++ lineasCantidades ++
        [ "", "--- Venta mas alta y mas baja ---", "Tipo,ID Evento,Monto" ] ++
-       [ "Venta mas alta," ++ show (idEvento alta) ++ "," ++ show (valor alta) ] ++
-       [ "Venta mas baja," ++ show (idEvento baja) ++ "," ++ show (valor baja) ] ++
+       [ "Venta mas alta," ++ show (idEvento alta) ++ "," ++ mostrar2Decimales (valor alta) ] ++
+       [ "Venta mas baja," ++ show (idEvento baja) ++ "," ++ mostrar2Decimales (valor baja) ] ++
        [ "", "--- Categoria con mayor variedad de precios/productos ---", "Categoria,Precios Diferentes" ] ++
        [ catVar ++ "," ++ show cantVar ]

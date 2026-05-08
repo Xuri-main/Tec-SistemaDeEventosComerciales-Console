@@ -7,16 +7,6 @@ import Data.Time.Clock (utctDay)
 import Data.Time.Calendar (toGregorian)
 
 {-
-Función: redondear2
-Objetivo: Redondear un valor decimal a 2 decimales.
-Entrada: Un número Double.
-Salida: Un Double redondeado.
-Restricciones: El valor debe ser numérico y puede tener pequeñas variaciones por el uso de Double.
--}
-redondear2 :: Double -> Double
-redondear2 valor = fromIntegral (round (valor * 100)) / 100.0
-
-{-
 Función: quitarRepetidos
 Objetivo: Eliminar elementos repetidos de una lista.
 Entrada: Una lista de elementos comparables.

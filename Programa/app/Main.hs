@@ -150,12 +150,15 @@ menuAnalisis eventos = do
 
         "2" -> do
             let total = totalDeVentas eventos
-            putStrLn $ "\n[INFO] El total de todas las compras es: " ++ show total
+            putStrLn $ "\n[INFO] El total de todas las compras es: $" ++ mostrar2Decimales total
             menuAnalisis eventos
 
         "3" -> do
-            putStrLn "\n[INFO] Total de ventas por (Anio, Mes):"
-            mapM_ print (ventasPorMesYAnio eventos)
+            putStrLn "\n[INFO] Total de ventas por Fecha (Ordenado):"
+            let resultados = ventasPorMesYAnio eventos
+            mapM_ (\((anio, mes), monto) -> 
+                putStrLn $ "Fecha: " ++ show mes ++ "/" ++ show anio ++ " -> Total: $" ++ mostrar2Decimales monto
+                ) resultados
             menuAnalisis eventos
 
         "4" -> do
@@ -192,7 +195,7 @@ menuTemporal eventos = do
             "1" -> do
                 let ((anio, mes), totalVendido) = mesMayorVenta eventos
                 let diaActivo = diaMasActivo eventos
-                putStrLn $ "\n[INFO] Mes con MAYOR VENTA: " ++ show mes ++ "/" ++ show anio ++ " (Total: $" ++ show totalVendido ++ ")"
+                putStrLn $ "\n[INFO] Mes con MAYOR VENTA: " ++ show mes ++ "/" ++ show anio ++ " (Total: $" ++ mostrar2Decimales totalVendido ++ ")"
                 putStrLn $ "[INFO] Dia mas activo (mas cantidad de eventos): " ++ diaActivo
                 menuTemporal eventos
 

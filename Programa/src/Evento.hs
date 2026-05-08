@@ -18,3 +18,22 @@ data Evento = Evento {
     timestamp :: Int,
     etiqueta  :: String
 } deriving (Show, Eq)
+
+{-
+Función: redondear2
+Objetivo: Redondear un valor decimal a 2 decimales.
+Entrada: Un número Double.
+Salida: Un Double redondeado.
+Restricciones: El valor debe ser numérico y puede tener pequeñas variaciones por el uso de Double.
+-}
+redondear2 :: Double -> Double
+redondear2 v = fromIntegral (round (v * 100)) / 100.0
+
+mostrar2Decimales :: Double -> String
+mostrar2Decimales v =
+    let numeroTotal = round (v * 100) :: Integer
+        parteEntera = numeroTotal `div` 100
+        parteDecimal = abs (numeroTotal `mod` 100)
+        textoDecimal = if parteDecimal < 10 then "0" ++ show parteDecimal else show parteDecimal
+        
+    in show parteEntera ++ "." ++ textoDecimal

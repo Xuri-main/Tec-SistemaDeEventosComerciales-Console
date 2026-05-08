@@ -8,7 +8,7 @@ import System.Directory (doesFileExist)
 eventoACsv :: Evento -> String
 eventoACsv ev = show (idEvento ev) ++ "," ++
                 categoria ev ++ "," ++
-                show (valor ev) ++ "," ++
+                mostrar2Decimales (valor ev) ++ "," ++  -- AQUI ESTA EL CAMBIO
                 show (timestamp ev) ++ "," ++
                 etiqueta ev
 
