@@ -1,0 +1,9 @@
+38d5505 - GingerRG, 2026-05-07 : docu interna
+8585cd7 - Emilio Funes R., 2026-05-07 : Implementacion 2 decimales
+27ac328 - Emilio Funes R., 2026-05-06 : Actualizacion de .info y estadisticas
+d3045d1 - Jareck-Levell, 2026-05-06 : importacion.csv y exportacion.csv
+2187acf - GingerRG, 2026-05-06 : docu interna P1
+785dac2 - Emilio Funes R., 2026-05-06 : Modulo de Analizador y analizador temporal
+3908f89 - Jareck-Levell, 2026-05-06 : Implementacion de transformacion de eventos
+984b8f5 - Ginger Rodríguez Gutiérrez, 2026-05-03 : Agregue menu de gestion eventos y el generador
+f5372a1 - Emilio Funes R., 2026-05-03 : Inicializacion de proyecto cabal, estructura evento y menu principal
